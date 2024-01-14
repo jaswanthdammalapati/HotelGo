@@ -281,7 +281,8 @@ def hotel_upload(request):
 
             hotel.save()
 
-            return redirect('hotels')
+            return redirect('manage_rooms', hotel_id=hotel.id)
+
 
     else:
         hotel_form = HotelForm()
