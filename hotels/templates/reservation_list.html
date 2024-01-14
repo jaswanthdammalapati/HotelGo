@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="px-5" >
+    <br>
+    <h2 class="text-center">Reservation List for {{ hotel.name }}</h2>
+
+    {% if reservations %}
+        <table class="table-bordered ">
+            <thead>
+                <tr>
+                    <th class="px-5">Reservation ID</th>
+                    <th class="px-5">Guest Name</th>
+                       <th class="px-5">Guest Phone</th>
+                    <th class="px-5">Check-in Date</th>
+                    <th class="px-5">Check-out Date</th>
+                    <th class="px-5">To be paid</th>
+                    <th class="px-5"> Room Type</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr class="text-center">
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.guest_name }}</td>
+                          <td>{{ reservation.guest_phone }}</td>
+                        <td>{{ reservation.checkin_date }}</td>
+                        <td>{{ reservation.checkout_date }}</td>
+                        <td>{{ reservation.cost }}</td>
+                    <td>{{ reservation.room_type }}</td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No reservations found for this hotel.</p>
+    {% endif %}
+     </div>
+{% endblock %}

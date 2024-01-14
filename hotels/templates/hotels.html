@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}All Hotels - HotelGo{% endblock %}
+
+{% block content %}
+    <style>
+        .limited-lines {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+
+        @media (max-width: 1200px) {
+                section{
+            padding:40px 20px;
+
+        }
+            }
+         @media (min-width: 1200px) {
+                section{
+                    padding: 40px 180px ;
+                }
+            }
+    </style>
+    <section >
+    <div class="row text-center">
+        <form method="get" action="{% url 'hotels' %}">
+            <label for="checkin_date">Check-in Date:</label>
+            <input type="date" name="checkin_date" value="{{ checkin_date }}" required>
+
+            <label for="checkout_date">Check-out Date:</label>
+            <input type="date" name="checkout_date" value="{{ checkout_date }}" required>
+
+            <label for="adults">Adults:</label>
+            <input style="width: 50px" type="number" name="adults" min="1" value="{{ adults }}" required>
+
+            <label for="children">Children:</label>
+            <input style="width: 50px" type="number" name="children" min="0" value="{{ children }}" required>
+
+
+            <button class="btn btn-primary mb-1" type="submit">Search</button>
+
+
+            <input type="hidden" id="breakfastFilter" name="breakfast" value="0">
+            <input type="hidden" id="poolFilter" name="pool" value="0">
+            <input type="hidden" id="wifiFilter" name="wifi" value="0">
+            <input type="hidden" id="fitnessFilter" name="fitness" value="0">
+        </form>
+    </div>
+        <div class="row g-0">
+            <div class="col-md-3" style="max-width: 250px;padding-right : 10px">
+                <br>
+                <h2>Filters</h2>
+              <form method="get" action="{% url 'hotels' %}">
+
+
+     <ul class="list-group">
+    <li class="list-group-item">
+        <input class="form-check-input" type="checkbox" name="free_wifi" {% if request.session.free_wifi %}checked{% endif %}>
+        Free WiFi
+    </li>
+    <li class="list-group-item">
+        <input class="form-check-input" type="checkbox" name="fitness_center" {% if request.session.fitness_center %}checked{% endif %}>
+        Fitness Center
+    </li>
+    <li class="list-group-item">
+        <input class="form-check-input" type="checkbox" name="breakfast" {% if request.session.breakfast %}checked{% endif %}>
+        Breakfast
+    </li>
+    <li class="list-group-item">
+        <input class="form-check-input" type="checkbox" name="swimming_pool" {% if request.session.swimming_pool %}checked{% endif %}>
+        Swimming Pool
+    </li>
+</ul>
+<br>
+        <button class="btn btn-primary" style="width: 100% !important;" type="submit">Apply Filters</button>
+    </form>
+            </div>
+
+            <div class="col-md-9">
+                <br>
+
+            <div class="row text-right">
+
+                <div class="col" style="text-align: right">
+             <a class="btn btn-primary"  href={% url 'hotel_upload' %}>Add Hotel</a>
+                     </div>
+             </div>
+                {% for hotel in hotels %}
+                    <br>
+                    <div class="card" style="padding: 3px 16px !important;padding-bottom: 16px !important;">
+
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <a href="{% url 'hotel_detail' hotel.id %}">
+                                    <img src="{{ hotel.image1.url }}" class="img-fluid rounded"
+                                         alt="image" style="padding-right: 10px !important;padding-top: 5% !important;"></a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row ">
+                                        <div class="col-md-8">
+                                            <a href="{% url 'hotel_detail' hotel.id %}" style="text-decoration: none!important;">
+                                                <h5 class="card-title" style="color: blue !important;">{{ hotel.name }}</h5>
+
+
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p style="text-align: right">Rating {{ hotel.rating }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-md-8">
+                                            <p>{{ room_type_names.1 }}</p>
+                                            <p class="limited-lines">{{ hotel.description }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <br><br>
+                                            {% if num_days == 0 %}
+                                                <p class="card-text" style="text-align: right !important;"> 1 night, 1 adult
+                                                    <span class="card-text" style="text-align: right !important;font-weight: bold;font-size: 25px!important;"><br>${{ hotel.total_cost }}</span>
+                                                </p>
+                                            {% else %}
+                                                {% if children %}
+                                                    <p class="card-text"></p>
+
+                                                    <p class="card-text" style="text-align: right !important;margin-bottom: -1px">
+                                                        <small class="text-body-secondary"
+                                                               style="font-size: 13px !important;text-align: right !important;">{{ num_days }}
+                                                            nights, {{ adults }} adults,{{ children }} children</small>
+                                                    </p>
+                                                    <p class="card-text"
+                                                       style="text-align: right !important;font-weight: bold;font-size: 25px!important;">${{ hotel.total_cost }}</p>
+
+                                                {% elif num_days == 1 %}
+                                                    <p class="card-text"></p>
+                                                    <p class="card-text"
+                                                       style="text-align: right !important;margin-bottom: -1px">
+                                                        <small class="text-body-secondary"
+                                                               style="font-size: 13px !important;">{{ num_days }} night, {{ adults }}
+                                                            adults</small>
+                                                    </p>
+                                                    <p class="card-text"
+                                                       style="text-align: right !important;font-weight: bold;font-size: 25px!important;">${{ hotel.total_cost }}</p>
+                                                    {% else %}
+                                                    <p class="card-text"></p>
+                                                    <p class="card-text"
+                                                       style="text-align: right !important;margin-bottom: -1px">
+                                                        <small class="text-body-secondary"
+                                                               style="font-size: 13px !important;">{{ num_days }} nights, {{ adults }}
+                                                            adults</small>
+                                                    </p>
+                                                    <p class="card-text"
+                                                       style="text-align: right !important;font-weight: bold;font-size: 25px!important;">
+                                                        ${{ hotel.total_cost }}</p>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-md-8">
+                                            <p class="card-text"><small class="text-body-secondary">{{ hotel.location }}</small></p>
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right !important;">
+
+                                            <a class="btn btn-primary"
+                                               href="{% url 'hotel_detail' hotel.id %}">Check Availability</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+
+            function updateFilters() {
+
+            }
+
+
+            $('#breakfastCheckbox, #poolCheckbox, #wifiCheckbox, #fitnessCheckbox').change(function () {
+
+                updateFilters();
+            });
+
+
+            $('#applyFilters').click(function () {
+
+                $('form').submit();
+            });
+
+            updateFilters();
+        });
+    </script>
+{% endblock %}

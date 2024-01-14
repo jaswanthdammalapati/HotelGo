@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}My Reservations - HotelGo{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+  <h2 class="text-center">My Reservations</h2>
+
+        {% if reservations %}
+            <div class="row justify-content-center">
+
+                {% for reservation in reservations %}
+                    <div class="col-md-9 mb-3">
+
+                        <div class="card ">
+                            <div class="card-header">
+                                <h5 class="card-title text-center">Reservation #{{ reservation.id }}</h5>
+                            </div>
+                            <div class="card-body">
+
+                                          <p class="card-text text-center "><strong>{{ reservation.hotel.name }}</strong></p>
+
+                                       <p class="card-text text-center fs-4"><strong>{{ reservation.checkin_date }} - {{ reservation.checkout_date }}</strong></p>
+                                <div class="row text-center">
+                                        <div class="col-md-6">
+                                                  <p class="card-text"><strong>Guest Name:</strong> {{ reservation.guest_name }}</p>
+
+                                        </div>
+                                     <div class="col-md-6">
+                                                   <p class="card-text align-right"><strong>Room Type:</strong> {{ reservation.room_type }}</p>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                                   <p class="card-text"><strong>Guest phone:</strong> {{ reservation.guest_phone }}</p>
+
+                                        </div>
+                                     <div class="col-md-6">
+
+                                <p class="card-text"><strong>No.of Rooms:</strong> {{ reservation.quantity }}</p>
+                                        </div>
+
+                              <div class="col-md-6">
+
+                                   <p class="card-text"><strong>To be paid:</strong>${{ reservation.cost }}</p>
+                              </div>
+                              <div class="col-md-6">
+                                 <p class="card-text"><strong>No.of Days:</strong> {{ reservation.num_days }}</p>
+                                </div>
+                                           </div>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">Booked on {{ reservation.booked_on }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="mt-3">No reservations found.</p>
+        {% endif %}
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,151 @@
+<!-- hotels/templates/hotel_upload.html -->
+{% extends 'base.html' %}
+
+{% block title %}Hotel Upload{% endblock %}
+
+{% block content %}
+ <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <p class="card-body">
+            <h2 class="card-title mb-4 text-center">Upload Hotel Details</h2>
+            <form class="ms-5" method="post" action="{% url 'hotel_upload' %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <p>
+        {{ hotel_form.name.label_tag }}
+        {{ hotel_form.name }}
+        {{ hotel_form.name.errors }}
+    </p>
+
+    <p>
+        {{hotel_form.location.label_tag}}
+        {{ hotel_form.location }}
+        {{ hotel_form.location.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.image1.label_tag }}
+        {{ hotel_form.image1 }}
+        {{ hotel_form.image1.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.image2.label_tag }}
+        {{ hotel_form.image2 }}
+        {{ hotel_form.image2.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.image3.label_tag }}
+        {{ hotel_form.image3 }}
+        {{ hotel_form.image3.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.image4.label_tag }}
+        {{ hotel_form.image4 }}
+        {{ hotel_form.image4.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.price.label_tag }}
+        {{ hotel_form.price }}
+        {{ hotel_form.price.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.room_types.label_tag }}
+        {{ hotel_form.room_types }}
+        {{ hotel_form.room_types.errors }}
+
+    </p>
+ <button id="addRoomTypeBtn" class="btn btn-primary mt-3">Add Room Type</button>
+                <p></p>
+    <p>
+        {{ hotel_form.description.label_tag }}
+        {{ hotel_form.description }}
+        {{ hotel_form.description.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.free_wifi.label_tag }}
+        {{ hotel_form.free_wifi }}
+        {{ hotel_form.free_wifi.errors }}
+
+        {{ hotel_form.fitness_center.label_tag }}
+        {{ hotel_form.fitness_center }}
+        {{ hotel_form.fitness_center.errors }}
+    </p>
+
+    <p>
+        {{ hotel_form.breakfast.label_tag }}
+        {{ hotel_form.breakfast }}
+        {{ hotel_form.breakfast.errors }}
+
+        {{ hotel_form.swimming_pool.label_tag }}
+        {{ hotel_form.swimming_pool }}
+        {{ hotel_form.swimming_pool.errors }}
+    </p>
+
+    <div class="form-group">
+        {{ hotel_form.rating.label_tag }}
+        {{ hotel_form.rating }}
+        {{ hotel_form.rating.errors }}
+    </div>
+<p></p>
+                 <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Upload</button>
+                     <br><br>
+              </div>
+                <br>
+            </form>
+
+          <div id="addRoomTypeModal" class="modal" style="display: none;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Room Type</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="addRoomTypeForm" method="post" action="{% url 'add_room_type' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ room_type_form.as_p }}
+          <button type="button" id="saveRoomTypeBtn" class="btn btn-primary mt-3">Save</button>
+        </form>
+      </div>
+    </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript/jQuery for handling the popup
+    const modal = document.getElementById('addRoomTypeModal');
+    const addRoomTypeBtn = document.getElementById('addRoomTypeBtn');
+    const span = document.getElementsByClassName('close')[0];
+    const saveRoomTypeBtn = document.getElementById('saveRoomTypeBtn');
+
+    addRoomTypeBtn.onclick = function() {
+      modal.style.display = 'block';
+    };
+
+    span.onclick = function() {
+      modal.style.display = 'none';
+    };
+
+    saveRoomTypeBtn.onclick = function() {
+      document.getElementById('addRoomTypeForm').submit();
+    };
+
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  </script>
+{% endblock %}

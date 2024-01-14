@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}HotelGo{% endblock %}
+
+{% block content %}
+
+<body>
+  <div class="card text-bg-dark position-relative">
+    <img src="{% static 'images/hotelimg.jpg' %}" class="card-img img-fluid">
+    <div class="card-img-overlay d-flex align-items-center">
+      <div class="container text-white">
+        <div class="row">
+          <div class="col-md-8">
+            <h2 class="card-title text-dark lead fs-1" >
+              Discover the<br> joy of travel <br> with HotelGo.
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <p class="fs-5 text-dark">
+      Welcome to HotelGo Omaha, your premier destination for an unforgettable lodging experience in the heart of Omaha! Our website serves as a gateway to a diverse chain of hotels, each offering a unique blend of comfort, luxury, and convenience. Whether you're here for business or leisure, our carefully curated selection of accommodations caters to all your needs. Explore our range of hotels across Omaha, each featuring distinctive amenities and personalized services. From modern city stays to charming boutique options, HotelGo ensures a memorable and seamless booking experience. Discover the perfect home away from home and unlock the wonders of Omaha through our user-friendly platform. Your next exceptional stay is just a click away with HotelGo, where hospitality meets convenience.
+         </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <h2 class="mb-4">Our Services</h2>
+
+    <div class="row">
+      <!-- Service Card 1 -->
+      <div class="col-md-4 mb-4">
+        <div class="card service-card">
+          <img src="{% static 'images/service1.jpg' %}" class="card-img-top img-fluid" alt="Service 1">
+          <div class="card-body">
+            <h5 class="card-title">Luxury Accommodations</h5>
+            <p class="card-text">Experience the epitome of comfort and luxury in our well-appointed rooms.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Card 2 -->
+      <div class="col-md-4 mb-4">
+        <div class="card service-card">
+          <img src="{% static 'images/service2.jpeg' %}" class="card-img-top img-fluid" alt="Service 2">
+          <div class="card-body">
+            <h5 class="card-title">World-Class Amenities</h5>
+            <p class="card-text">Enjoy a range of amenities including free Wi-Fi, fitness center, and more.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Card 3 -->
+      <div class="col-md-4 mb-4">
+        <div class="card service-card">
+          <img src="{% static 'images/service3.jpg' %}" class="card-img-top img-fluid" alt="Service 3">
+          <div class="card-body">
+            <h5 class="card-title">Exceptional Dining</h5>
+            <p class="card-text">Savor delicious culinary delights at our onsite restaurants and cafes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-5 bg-dark text-light py-4">
+    <div class="container text-center">
+      <h2 class="mb-0">HotelGo</h2>
+      <p class="mb-0">Copyright &copy; 2024 HotelGo, Inc</p>
+    </div>
+  </footer>
+
+</body>
+     <style>
+    .lead {
+        font-size: 80px !important;
+        padding-bottom: 30px;
+
+    }
+
+     @media (max-width:800px) {
+             .lead {
+        font-size: 30px !important;
+        padding-bottom: 0;
+
+    }
+        }
+
+     @media (max-width:900px) {
+             .lead {
+        font-size: 35px !important;
+        padding-bottom: 0;
+
+    }
+        }
+
+ .service-card {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .service-card:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+  }
+
+
+
+</style>
+{% endblock %}

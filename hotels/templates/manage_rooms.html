@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Rooms - {{ hotel.name }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="card mx-auto" style="max-width: 400px;">
+      <div class="card-body ">
+        <h2 class="card-title" style="color: #007bff;">Manage Rooms - {{ hotel.name }}</h2>
+        <form method="post" action="{% url 'update_available_rooms' hotel_id=hotel.id %}">
+          {% csrf_token %}
+            {{ room_form.non_field_errors }}
+
+              <div class="mb-3">
+               <label for="{{ room_form.room_type.id_for_label }}" class="form-label">Room Type:&nbsp;&nbsp;&nbsp;</label>
+
+                {{ room_form.room_type }}
+
+          </div>
+             <div class="mb-3">
+               <label for="{{ room_form.available_rooms.id_for_label }}" class="form-label">No.of Rooms:</label>
+
+
+                {{ room_form.available_rooms }}
+          </div>
+          <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+
+        <a href="{% url 'hotel_detail' hotel_id=hotel.id %}" style="text-decoration: none; color: #007bff; display: block; margin-top: 10px;">Go back</a>
+      </div>
+    </div>
+  </div>
+    <style>
+    input{
+        width: 135px;
+    }
+    </style>
+{% endblock %}
