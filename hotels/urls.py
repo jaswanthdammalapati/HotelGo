@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import homepage, user_login, user_register, user_logout, hotel_detail, hotels, ReserveRoomView, \
+from .views import homepage, user_login, user_register, user_logout, hotel_detail, hotels, reserve_room, \
     reservation_success, my_reservation, hotel_upload, add_room_type, manage_rooms, update_available_rooms, edit_hotel, \
     delete_hotel, reservation_list
 from django.conf import settings
@@ -12,7 +12,7 @@ urlpatterns = [
                   path("logout", user_logout, name="logout"),
                   path('hotels/', hotels, name='hotels'),
                   path('hotel/<int:hotel_id>/', hotel_detail, name='hotel_detail'),
-                  path('reserve-room/<int:hotel_id>/', ReserveRoomView.as_view(), name='reserve_room'),
+                  path('reserve-room/<int:hotel_id>/', reserve_room, name='reserve_room'),
                   path('reserve-room/success/', reservation_success, name='reservation_success'),
                   path('reservations/', my_reservation, name='my_reservation'),
                   path('hotel/upload/', hotel_upload, name='hotel_upload'),
