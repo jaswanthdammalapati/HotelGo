@@ -154,27 +154,16 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    # messages.info(request, "You have successfully logged out.")
     return redirect("homepage")
 
 
-class ReserveRoomView(View):
+def reserve_room(request, hotel_id):
     template_name = 'hotel_detail.html'
+    hotel = Hotel.objects.get(pk=hotel_id)
+    room_types = RoomType.objects.filter(hotel=hotel)
+    form = RoomReservationForm(room_types=room_types)
 
-    def get(self, request, hotel_id, *args, **kwargs):
-        hotel = Hotel.objects.get(pk=hotel_id)
-        room_types = RoomType.objects.filter(hotel=hotel)
-        form = RoomReservationForm(room_types=room_types)
-        context = {
-            'hotel': hotel,
-            'room_types': room_types,
-            'form': form,
-        }
-        return render(request, self.template_name, context)
-
-    def post(self, request, hotel_id, *args, **kwargs):
-
-        hotel = Hotel.objects.get(pk=hotel_id)
+    if request.method == 'POST':
         room_types = RoomType.objects.filter(hotel=hotel)
         form = RoomReservationForm(room_types=room_types, data=request.POST)
         checkin_date = request.session.get('checkin_date')
@@ -188,6 +177,7 @@ class ReserveRoomView(View):
             return (checkout - checkin).days
 
         num_days = calculate_days(checkin_date, checkout_date)
+
         if form.is_valid():
             guest_name = form.cleaned_data['guest_name']
             guest_phone = form.cleaned_data['guest_phone']
@@ -199,7 +189,6 @@ class ReserveRoomView(View):
                     room_instances = HotelRoom.objects.filter(room_type=room_type)
 
                     if room_instances.exists():
-                        # Choose the first instance (you may need to refine this based on your business logic)
                         availability = room_instances.first()
 
                         if int(quantity) > 0 and int(quantity) <= availability.available_rooms:
@@ -208,7 +197,6 @@ class ReserveRoomView(View):
 
                             room_type_cost = (room_type.price * int(quantity)) * num_days
                             total_cost += room_type_cost
-
 
                             reservation = RoomReservation.objects.create(
                                 room_type=room_type,
@@ -226,7 +214,6 @@ class ReserveRoomView(View):
                             reservation_successful = True
 
                 except ObjectDoesNotExist:
-
                     pass
 
             if reservation_successful:
@@ -238,7 +225,7 @@ class ReserveRoomView(View):
                 for reservation in user_reservations:
                     message += f'Reservation ID: {reservation.id}\n'
                     message += f'Hotel Name: {reservation.hotel.name}\n'
-                    message += f'Hotel Name: {reservation.hotel.location}\n'
+                    message += f'Hotel Location: {reservation.hotel.location}\n'
                     message += f'Check-in Date: {reservation.checkin_date}\n'
                     message += f'Check-out Date: {reservation.checkout_date}\n'
                     message += f'Room Type: {reservation.room_type.name}\n'
@@ -251,12 +238,15 @@ class ReserveRoomView(View):
 
                 return redirect('reservation_success')
 
-        context = {
-            'hotel': hotel,
-            'room_types': room_types,
-            'form': form,
-        }
-        return render(request, self.template_name, context)
+    context = {
+        'hotel': hotel,
+        'room_types': room_types,
+        'form': form,
+    }
+    return render(request, template_name, context)
+
+         
+    
 
 
 def my_reservation(request):
