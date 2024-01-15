@@ -84,10 +84,16 @@
                 <br>
 
             <div class="row text-right">
-{% if user.is_superuser %} 
+               <div class="col" style="text-align: left">
+             <a class="btn btn-primary"  href={% url 'hotels' %}>Clear Filters</a>
+                     </div>
+
+{% if user.is_superuser %}
                 <div class="col" style="text-align: right">
              <a class="btn btn-primary"  href={% url 'hotel_upload' %}>Add Hotel</a>
                      </div>
+
+
                 {% endif %}
              </div>
                 {% for hotel in hotels %}
